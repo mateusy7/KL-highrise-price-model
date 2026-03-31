@@ -74,4 +74,4 @@ if submit:
             st.error(f"Connection failed: {e}")
 
 st.divider()
-st.caption("Made in Malaysia | Data sourced from JPPH Historical Transactions")
+st.caption("Made in Malaysia | Data sourced from JPPH")

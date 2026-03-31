@@ -1,0 +1,12 @@
+name: Keep App Awake
+on:
+  schedule:
+    - cron: '0 */10 * * *' 
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Streamlit App
+        run: curl -s https://kl-highrise.streamlit.app > /dev/null
