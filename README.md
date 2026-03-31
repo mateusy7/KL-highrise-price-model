@@ -8,7 +8,6 @@ based on historical JPPH transaction data.
 ---
 
 ## Project Overview
-A random forest model that predicts a fair price of residential highrise units in Kuala Lumpur (KL) based on location in 8 'mukims' or districts within KL and unit properties.
 
 * **Target:** Transaction Price (RM)
 * **Training features:** Property type, Mukim, Tenure (Leasthold, Freehold), Unit Level, Land parcel area (sqft), Mukim median income, Scheme name/Area median price
@@ -24,17 +23,17 @@ A random forest model that predicts a fair price of residential highrise units i
 1. **Data Engineering:** Cleaned historical transaction data from JPPH, mapped income and population data from DOSM to each of 8 'mukims (district)' in KL. 
 2. **Preprocessing** One-hot encoding for 'property_type', 'mukim' and 'tenure' features, leave-one-out target encoding of 1000+ highrise buildings/areas to the median price of top 30 most frequent sale regions within each 'mukim', transaction price capped at the `99th percentile (RM 4,200,000)` to limit effect of outliers during training. For reference: `median or 50th percentile (RM 470,000)` and `99.9th percentile (RM9,200,000)`.
 3. **Model Training:** Trained 3 models: polynomial regression, decision tree, and random forest model with custom full training Scikit-learn pipelines, hyperparameter tuning with grid search CV on 5-folds training data for RMSE performance.
-4. **Model Evaluation** Random forest model had lowest test `RMSE of RM 194,000`. However, RMSE is highly skewed by large outliers data, `MAPE (mean absolute percentage error) at 15.9%` shows a better individual performance measure, which is an average of a 15.9% price deviation from the true price.
+4. **Model Evaluation:** Random forest model had lowest test `RMSE of RM 194,000`. However, RMSE is highly skewed by large outliers data, `MAPE (mean absolute percentage error) at 15.9%` shows a better individual performance measure, which is an average of a 15.9% price deviation from the true price.
 
 ---
 
 ## Evaluation Metrics (Test set)
-| Metric : Value |
-| RMSE (overall): `RM 194,000` | RMSE (80th percentile, RM 1,000,000 and below): `RM 113,000` |
+| Metric: Value |  
+| RMSE (overall): `RM 194,000` | RMSE (80th percentile, RM 1,000,000 and below): `RM 113,000` |  
 | MAPE (overall): `     15.9%` | MAPE (80th percentile, RM 1,000,000 and below): `     16.7%` |
 
-| **Model Type** | Random Forest |
-| **Validation Strategy** | 80/20 Train-Test Split with 5-fold CV on training set|
+**Model Type**: Random Forest  
+**Validation Strategy**: 80/20 Train-Test Split with 5-fold CV on training set
 
 > **Note:**  
 Property prices are highly right-skewed as shown in 04_feature_engineering.ipynb.  
@@ -63,15 +62,23 @@ Look at the end of 05_training.ipynb for more performance metrics.
 
 Follow these steps to run the environment locally or redeploy the pipeline.
 
-1. Clone the repository
-`git clone [https://github.com/mateusy7/KL-highrise-price-model.git](https://github.com/mateusy7/KL-highrise-price-model.git)`  
-`cd KL-highrise-price-model`
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/mateusy7/KL-highrise-price-model.git
+   cd KL-highrise-price-model
+   ```
 
-2. Set up virtual environment
-`python -m venv venv`
+2. **Set up virtual environment**
+   ```bash
+   python -m venv venv
+   ```
 
-3. Install dependencies
-`pip install -r requirements.txt`
+3. **Install dependencies**
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-4. Run training pipeline to get trained model
-`python src/run_pipeline.py`
+4. **Run training pipeline to get trained model**
+   ```bash
+   python src/run_pipeline.py
+   ```
