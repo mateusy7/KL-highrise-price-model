@@ -72,3 +72,6 @@ if submit:
                 st.error(f"Error: {response.status_code} - {response.text}")
         except Exception as e:
             st.error(f"Connection failed: {e}")
+
+st.divider()
+st.caption("Made in Malaysia | Data sourced from JPPH Historical Transactions")
