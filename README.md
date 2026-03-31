@@ -40,8 +40,7 @@ based on historical JPPH transaction data.
 
 4. **Model Evaluation:**
 - Random forest model had lowest test `RMSE of RM 194,000`. However, RMSE is highly skewed by large outliers data.
-
-- A better individual performance measure `MAPE (mean absolute percentage error) at 15.9%` shows an average of a 15.9% price deviation from the true price.
+- A better individual performance measure `MAPE (mean absolute percentage error) at 15.9%` shows an average price deviation of 15.9% from the true price.
 
 ---
 
@@ -56,7 +55,7 @@ based on historical JPPH transaction data.
 
 > **Note:**  
 Property prices are highly right-skewed as shown in 04_feature_engineering.ipynb.  
-Look at the end of 05_training.ipynb for more performance metrics.
+Look at the end of 05_training.ipynb for performance at more percentiles.
 
 ---
 
@@ -77,7 +76,7 @@ Look at the end of 05_training.ipynb for more performance metrics.
 
 ---
 
-## Installation & Setup
+## How to Setup
 
 Follow these steps to run the environment locally and redeploy the pipeline to get the trained model.
 
@@ -104,7 +103,7 @@ Follow these steps to run the environment locally and redeploy the pipeline to g
 
 ## Next Steps for Improvement
 
-- Try clustering algorithms to uncover hidden relationships between specific regions within each 'mukim' to property prices.
+- Try clustering algorithms to uncover hidden relationships between specific regions within each 'mukim' and property prices.
 
 - More accurate boundary definitions for parliament-to-mukim mapping of income and population data from DOSM.
 
