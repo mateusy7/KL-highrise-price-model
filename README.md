@@ -9,25 +9,44 @@ based on historical JPPH transaction data.
 
 ## Project Overview
 
-* **Target:** Transaction Price (RM)
-* **Training features:** Property type, Mukim, Tenure (Leasthold, Freehold), Unit Level, Land parcel area (sqft), Mukim median income, Scheme name/Area median price
+* **Target:** `Transaction Price (RM)`
+* **Training features:** `Property type, Mukim, Tenure (Leasthold, Freehold), Unit Level, Land parcel area (sqft), Mukim median income, Scheme name/Area median price`
 * **Data source:** [Property sales data](https://napic.jpph.gov.my/en/open-sales-data), [Income data](https://data.gov.my/data-catalogue/hh_income_parlimen)
-* **Data timeframe:** 2021 to 2025 (25,978 entries)
-* **ML libraries:** Pandas, Numpy, Scikit-Learn, Matplotlib
-* **Deployment:** FastAPI on AWS ECS and AWS App Runner (Backend), Streamlit Cloud (Frontend)
+* **Data timeframe:** `2021 to 2025 (25,978 entries)`
+* **ML libraries:** `Pandas, Numpy, Scikit-Learn, Matplotlib`
+* **Deployment:** `FastAPI on AWS ECS and AWS App Runner (Backend), Streamlit Cloud (Frontend)`
 
 ---
 
 ## Methodology
 
-1. **Data Engineering:** Cleaned historical transaction data from JPPH, mapped income and population data from DOSM to each of 8 'mukims (district)' in KL. 
-2. **Preprocessing** One-hot encoding for 'property_type', 'mukim' and 'tenure' features, leave-one-out target encoding of 1000+ highrise buildings/areas to the median price of top 30 most frequent sale regions within each 'mukim', transaction price capped at the `99th percentile (RM 4,200,000)` to limit effect of outliers during training. For reference: `median or 50th percentile (RM 470,000)` and `99.9th percentile (RM9,200,000)`.
-3. **Model Training:** Trained 3 models: polynomial regression, decision tree, and random forest model with custom full training Scikit-learn pipelines, hyperparameter tuning with grid search CV on 5-folds training data for RMSE performance.
-4. **Model Evaluation:** Random forest model had lowest test `RMSE of RM 194,000`. However, RMSE is highly skewed by large outliers data, `MAPE (mean absolute percentage error) at 15.9%` shows a better individual performance measure, which is an average of a 15.9% price deviation from the true price.
+1. **Data Engineering:**
+
+- Cleaned historical transaction data from JPPH
+- Mapped income and population parliament data from DOSM to each of 8 'mukims (district)' in KL
+
+2. **Preprocessing:**
+
+- One-hot encoding for 'property_type', 'mukim' and 'tenure' features
+- Leave-one-out target encoding of 1000+ highrise buildings/areas to the median price of top 30 most frequent sale regions within each 'mukim'
+- Log-transformed highly right-skewed 'land_parcel_area' feature for model training
+- Capped transaction price at the `99th percentile (RM 4,200,000)` to limit effect of outliers during training. For reference: `median or 50th percentile (RM 470,000)` and `99.9th percentile (RM9,200,000)`
+
+3. **Model Training:**
+
+- Trained 3 models: polynomial regression, decision tree, and random forest model
+- Custom Scikit-learn full training pipelines
+- Hyperparameter tuning with grid search CV on 5-folds training data for RMSE performance
+
+4. **Model Evaluation:**
+- Random forest model had lowest test `RMSE of RM 194,000`. However, RMSE is highly skewed by large outliers data.
+
+- A better individual performance measure `MAPE (mean absolute percentage error) at 15.9%` shows an average of a 15.9% price deviation from the true price.
 
 ---
 
 ## Evaluation Metrics (Test set)
+
 | Metric: Value |  
 | RMSE (overall): `RM 194,000` | RMSE (80th percentile, RM 1,000,000 and below): `RM 113,000` |  
 | MAPE (overall): `     15.9%` | MAPE (80th percentile, RM 1,000,000 and below): `     16.7%` |
@@ -60,7 +79,7 @@ Look at the end of 05_training.ipynb for more performance metrics.
 
 ## Installation & Setup
 
-Follow these steps to run the environment locally or redeploy the pipeline.
+Follow these steps to run the environment locally and redeploy the pipeline to get the trained model.
 
 1. **Clone the repository**
    ```bash
@@ -78,7 +97,15 @@ Follow these steps to run the environment locally or redeploy the pipeline.
    pip install -r requirements.txt
    ```
 
-4. **Run training pipeline to get trained model**
+4. **Run training pipeline**
    ```bash
    python src/run_pipeline.py
    ```
+
+## Next Steps for Improvement
+
+- Try clustering algorithms to uncover hidden relationships between specific regions within each 'mukim' to property prices.
+
+- More accurate boundary definitions for parliament-to-mukim mapping of income and population data from DOSM.
+
+- Better transformation pipelines (log transforms, feature engineering) before model training.
